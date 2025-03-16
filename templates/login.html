@@ -1,16 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background-image: url('https://img.freepik.com/premium-photo/hand-holding-keys-house-model-blue-background-refinance-plan-real-estate-concept_144352-518.jpg'); /* Replace with your own image */
+            background-size: cover;
+            background-position: center center;
+            background-attachment: fixed;
+            color: #fff;
+            text-align: center;
+        }
+
+        h2 {
+            margin-top: 50px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+        }
+
+        .form-container {
+            margin-top: 40px;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 40px;
+            border-radius: 10px;
+            display: inline-block;
+            width: 100%;
+            max-width: 400px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+            color: #f0a500;
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 2px solid #fff;
+            border-radius: 5px;
+            font-size: 1.1em;
+            background-color: rgba(255, 255, 255, 0.3);
+            color: #fff;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        p {
+            margin-top: 20px;
+        }
+
+        footer {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            text-align: center;
+            font-size: 0.9em;
+            color: rgba(255, 255, 255, 0.8);
+        }
+    </style>
 </head>
 <body>
     <h2>Login</h2>
-    <form action="/login" method="post">
-        <input type="text" name="username" placeholder="Username" required>
-        <input type="password" name="password" placeholder="Password" required>
-        <button type="submit">Login</button>
-    </form>
-    <p>Don't have an account? <a href="/signup">Signup</a></p>
+    <div class="form-container">
+        <form action="/login" method="post">
+            <label for="username">Username</label>
+            <input type="text" name="username" placeholder="Username" required><br><br>
+            <label for="password">Password</label>
+            <input type="password" name="password" placeholder="Password" required><br><br>
+            <button type="submit">Login</button>
+        </form>
+        <p>Don't have an account? <a href="/signup" style="color: #f0a500; text-decoration: none;">Signup</a></p>
+    </div>
+
+    
 </body>
 </html>
