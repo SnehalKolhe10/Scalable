@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Property Purchase Successful</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            color: #333;
+            text-align: center;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #4CAF50;
+        }
+        p {
+            font-size: 18px;
+            color: #555;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #FF6347;
+            color: white;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #FF4500;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Property Purchase Successful!</h1>
+        <p>Your property has been successfully purchased with the selected loan.</p>
+        <a href="{{ url_for('logout') }}">
+            <button>Logout</button>
+        </a>
+    </div>
+</body>
+</html>
+ 

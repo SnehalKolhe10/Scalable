@@ -10,7 +10,7 @@
             margin: 0;
             padding: 0;
             height: 100%;
-            background-image: url('https://img.freepik.com/premium-photo/hand-holding-keys-house-model-blue-background-refinance-plan-real-estate-concept_144352-518.jpg'); /* Replace with your own image */
+            background-image: url('https://img.freepik.com/premium-photo/hand-holding-keys-house-model-blue-background-refinance-plan-real-estate-concept_144352-518.jpg');
             background-size: cover;
             background-position: center center;
             background-attachment: fixed;
@@ -95,18 +95,13 @@
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required><br><br>
 
+            <!-- Display error message if password is not valid -->
+            {% if error %}
+                <p style="color:red;">{{ error }}</p>
+            {% endif %}
+
             <button type="submit">Signup</button>
         </form>
-
-        <h3>Password Requirements:</h3>
-        <ul>
-            <li>At least 8 characters</li>
-            <li>At least one uppercase letter</li>
-            <li>At least one number</li>
-            <li>At least one special character (@, #, $, %)</li>
-        </ul>
     </div>
-
-    
 </body>
 </html>

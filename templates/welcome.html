@@ -4,8 +4,179 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url('https://st3.depositphotos.com/1000423/13168/i/450/depositphotos_131686190-stock-photo-real-estate-concept-mixed-media.jpg') no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+            color: white;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.5);
+        }
+        h1, h2 {
+            color: #FFD700;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        input, button {
+            padding: 10px;
+            width: 80%;
+            border-radius: 5px;
+            border: none;
+            font-size: 16px;
+        }
+        button {
+            background-color: #FFD700;
+            color: black;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: #FFA500;
+        }
+        table {
+            width: 100%;
+            margin-top: 20px;
+            background: white;
+            color: black;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+        }
+        #loanResult {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #FFD700;
+        }
+    </style>
+
+    <script>
+        let allLoans = [];
+    
+        // Fetch loans on page load
+        window.onload = () => {
+            fetch('http://loanrecommendation-env.eba-fssmj2mu.us-east-1.elasticbeanstalk.com/all-loans')
+                .then(res => res.json())
+                .then(data => {
+                    allLoans = data;
+                    populateLoanDropdowns();
+                })
+                .catch(err => console.error("Failed to fetch loans:", err));
+        };
+    
+        // Populate all dropdowns with loan options
+        function populateLoanDropdowns() {
+            const dropdowns = document.querySelectorAll('.loan-dropdown');
+            dropdowns.forEach(dropdown => {
+                allLoans.forEach(loan => {
+                    const option = document.createElement('option');
+                    option.value = loan.id;
+                    option.textContent = `${loan.bank_name} | €${loan.amount} | ${loan.interest_rate}% | ${loan.duration} yrs`;
+                    option.dataset.details = JSON.stringify(loan);
+                    dropdown.appendChild(option);
+                });
+            });
+        }
+    
+        // On selecting a loan
+        function showSelectedLoan(selectElement, propertyId) {
+            const selectedOption = selectElement.options[selectElement.selectedIndex];
+            if (selectedOption && selectedOption.dataset.details) {
+                const loan = JSON.parse(selectedOption.dataset.details);
+                const resultDiv = document.getElementById("loanResult");
+                resultDiv.innerHTML = `
+                    <h2>Selected Loan for Property ID ${propertyId}</h2>
+                    <table>
+                        <tr><th>Bank</th><td>${loan.bank_name}</td></tr>
+                        <tr><th>Amount (€)</th><td>${loan.amount}</td></tr>
+                        <tr><th>Interest Rate</th><td>${loan.interest_rate}%</td></tr>
+                        <tr><th>Duration</th><td>${loan.duration} years</td></tr>
+                    </table>
+                `;
+            }
+        }
+    </script>
 </head>
 <body>
-    <h1>Welcome to Real Estate, {{ username }}!</h1>
+    <div class="container">
+        <h1>Welcome to Real Estate, {{ username }}!</h1>
+        <h2>Find Your Property</h2>
+        <form method="POST">
+            <label>Budget (€):</label>
+            <input type="number" name="budget" placeholder="Enter budget">
+            
+            <label>Location:</label>
+            <input type="text" name="location" placeholder="Enter location">
+            
+            <label>Type:</label>
+            <input type="text" name="type" placeholder="Enter property type">
+
+            <button type="submit" name="action" value="filter">Show</button>
+            <button type="submit" name="action" value="show_all">Show All Properties</button>
+        </form>
+
+        <h2>Available Properties</h2>
+        {% if properties %}
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th>Price (€)</th>
+                    <th>Location</th>
+                    <th>Type</th>
+                    <th>Select Loan</th>
+                </tr>
+                {% for property in properties %}
+                <tr>
+                    <td>{{ property.name }}</td>
+                    <td>{{ property.price }}</td>
+                    <td>{{ property.location }}</td>
+                    <td>{{ property.type }}</td>
+                    <!-- <td>
+                        <select class="loan-dropdown" onchange="showSelectedLoan(this, {{ property.id }})">
+                            <option selected disabled>Select Loan</option>
+                        </select>
+                    </td> -->
+                    <td>
+                        <form method="POST" action="/select_loan">
+                            <input type="hidden" name="property_id" value="{{ property.id }}">
+                            <select name="loan_info" required>
+                                <option disabled selected>Select Loan</option>
+                                {% for loan in loans %}
+                                    <option value="{{ loan.bank }}|{{ loan.max_loan_amount }}|{{ loan.interest_rate }}|{{ loan.tenure }}">
+                                        {{ loan.bank }} | {{ loan.max_loan_amount }} | {{ loan.interest_rate }}% | {{ loan.tenure }} months
+                                    </option>
+                                {% endfor %}
+                            </select>
+                            <br><button type="submit">Select</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <p>No properties found.</p>
+        {% endif %}
+
+        <div id="loanResult"></div>
+    </div>
 </body>
 </html>

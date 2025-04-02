@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Parsed Loan Schemes</title>
+    <style>
+        body { font-family: Arial; background-color: #f9f9f9; padding: 20px; }
+        .scheme { margin-bottom: 40px; background: #fff; padding: 20px; border-radius: 10px; }
+        h2 { color: #007BFF; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: center; }
+        th { background-color: #eee; }
+    </style>
+</head>
+<body>
+    <h1>Loan Schemes Extracted from HTML</h1>
+
+    {% for scheme in schemes %}
+    <div class="scheme">
+        <h2>{{ scheme.name }}</h2>
+        <table>
+            <tr>
+                <th>Bank</th>
+                <th>Interest Rate (%)</th>
+                <th>Max Loan Amount</th>
+                <th>Tenure (months)</th>
+                <th>Monthly EMI</th>
+                <th>Processing Fee</th>
+                <th>Prepayment Penalty</th>
+            </tr>
+            {% for loan in scheme.loans %}
+            <tr>
+                {% for value in loan %}
+                <td>{{ value }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    {% endfor %}
+</body>
+</html>

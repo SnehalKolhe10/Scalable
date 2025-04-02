@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Selected Loan</title>
+    <style>
+        body { font-family: Arial; background: #f5f5f5; text-align: center; padding: 30px; }
+        .box { background: white; max-width: 600px; margin: auto; padding: 20px; border-radius: 10px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 10px; border: 1px solid #ccc; }
+        h2 { color: #444; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h2>Selected Property</h2>
+        <p><strong>Name:</strong> {{ property.name }}</p>
+        <p><strong>Location:</strong> {{ property.location }}</p>
+        <p><strong>Price (€):</strong> {{ property.price }}</p>
+
+        {% if loan %}
+            <h2>Selected Loan Scheme</h2>
+            <table>
+                <tr><th>Bank Name</th><td>{{ loan.bank_name }}</td></tr>
+                <tr><th>Loan Amount (€)</th><td>{{ loan.amount }}</td></tr>
+                <tr><th>Interest Rate</th><td>{{ loan.interest_rate }}%</td></tr>
+                <tr><th>Duration</th><td>{{ loan.duration }} years</td></tr>
+            </table>
+        {% else %}
+            <p style="color: red;">Loan information not found.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

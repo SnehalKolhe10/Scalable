@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>All Loan Schemes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 20px;
+            color: #333;
+        }
+        .scheme-container {
+            background: white;
+            margin-bottom: 30px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 5px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #0056b3;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+        th {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <h1>All Available Loan Schemes</h1>
+
+    {% for scheme_name, loans in loan_data.items() %}
+        <div class="scheme-container">
+            <h2>{{ scheme_name | capitalize }}</h2>
+            <table>
+                <tr>
+                    <th>Bank</th>
+                    <th>Loan ID</th>
+                    <th>Max Loan Amount (€)</th>
+                    <th>Monthly EMI (€)</th>
+                    <th>Interest Rate (%)</th>
+                    <th>Tenure (years)</th>
+                    <th>Processing Fee (€)</th>
+                    <th>Prepayment Penalty</th>
+                </tr>
+                {% for loan in loans %}
+                <tr>
+                    <td>{{ loan.bank }}</td>
+                    <td>{{ loan.loanId }}</td>
+                    <td>{{ loan.maxLoanAmount }}</td>
+                    <td>{{ loan.monthlyEMI }}</td>
+                    <td>{{ loan.interestRate }}</td>
+                    <td>{{ loan.tenure }}</td>
+                    <td>{{ loan.processingFee }}</td>
+                    <td>{{ loan.prepaymentPenalty }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    {% endfor %}
+</body>
+</html>
